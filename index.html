@@ -51,6 +51,195 @@
 <div id="aparelho" class="mx-auto min-h-screen bg-carbon relative shadow-[0_0_60px_rgba(0,0,0,.9)]">
 
   <main>
+    <section data-tela="minha-conta" class="hidden">
+  <style>
+    .mc-card{background:#111;border:1px solid rgba(212,175,55,.22)}
+    .mc-atalho{background:#FAFAFA;border:1px solid #e7e3d8}
+    .mc-atalho:active{transform:scale(.96)}
+    .mc-serif{font-family:Georgia,'Times New Roman',serif;letter-spacing:.01em}
+    .mc-linha{border-bottom:1px solid #ecebe6}
+  </style>
+
+  <div class="px-5 pt-4 pb-2 flex items-start justify-between">
+    <div>
+      <p class="text-[11px] uppercase tracking-[.18em] text-neutral-500">Conta Corrente · 0001</p>
+      <h2 class="mc-serif text-[22px] text-neutral-900 leading-tight mt-1">Boa tarde,<br>Renata Villalba</h2>
+    </div>
+    <button onclick="minha_conta_toggleNotif()" class="relative w-11 h-11 rounded-full mc-atalho flex items-center justify-center">
+      <span class="text-lg">🔔</span>
+      <span id="mc-badge" class="absolute top-1 right-1 w-[18px] h-[18px] rounded-full text-[10px] font-bold text-black flex items-center justify-center" style="background:#D4AF37">3</span>
+    </button>
+  </div>
+
+  <div id="mc-notif" class="hidden px-5 pb-2">
+    <div class="rounded-xl bg-white border border-neutral-200 overflow-hidden">
+      <div class="px-4 py-2 flex items-center justify-between" style="background:#0A0A0A">
+        <span class="text-[11px] uppercase tracking-[.16em]" style="color:#D4AF37">Notificações</span>
+        <button onclick="minha_conta_lerTudo()" class="text-[11px] text-neutral-300 underline">Marcar como lidas</button>
+      </div>
+      <button onclick="mostrarTela('pagar-boleto')" class="w-full text-left px-4 py-3 mc-linha">
+        <p class="text-[13px] font-semibold text-neutral-900">Boleto vence hoje</p>
+        <p class="text-[12px] text-neutral-500">Enel Distribuição SP · R$ 214,79</p>
+      </button>
+      <button onclick="mostrarTela('confirmacao-e-comprovante')" class="w-full text-left px-4 py-3 mc-linha">
+        <p class="text-[13px] font-semibold text-neutral-900">Pix recebido</p>
+        <p class="text-[12px] text-neutral-500">Marcos A. Ferreira · R$ 1.280,00</p>
+      </button>
+      <button onclick="mostrarTela('suporte-e-documentos')" class="w-full text-left px-4 py-3">
+        <p class="text-[13px] font-semibold text-neutral-900">Documento pendente</p>
+        <p class="text-[12px] text-neutral-500">Envie o comprovante de residência</p>
+      </button>
+    </div>
+  </div>
+
+  <div class="px-5 pt-2">
+    <div class="mc-card rounded-2xl p-5">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] uppercase tracking-[.18em] text-neutral-400">Saldo disponível</span>
+        <button onclick="minha_conta_olho()" class="text-[11px]" style="color:#D4AF37" id="mc-olho">ocultar</button>
+      </div>
+      <p id="mc-saldo" class="mc-serif text-[34px] text-white mt-2">R$ 18.472,35</p>
+      <div class="flex gap-6 mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,.08)">
+        <div>
+          <p class="text-[10px] uppercase tracking-[.14em] text-neutral-500">Entradas · out</p>
+          <p class="text-[13px] text-white mt-1">R$ 9.860,00</p>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-[.14em] text-neutral-500">Saídas · out</p>
+          <p class="text-[13px] text-white mt-1">R$ 6.117,42</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-5 pt-4">
+    <div class="grid grid-cols-4 gap-2">
+      <button onclick="mostrarTela('transferencia-pix')" class="mc-atalho rounded-xl py-3 flex flex-col items-center gap-1">
+        <span class="text-[17px]">⚡</span><span class="text-[10px] font-semibold text-neutral-800">Pix</span>
+      </button>
+      <button onclick="mostrarTela('pagar-boleto')" class="mc-atalho rounded-xl py-3 flex flex-col items-center gap-1">
+        <span class="text-[17px]">🧾</span><span class="text-[10px] font-semibold text-neutral-800">Boleto</span>
+      </button>
+      <button onclick="mostrarTela('meus-cartoes')" class="mc-atalho rounded-xl py-3 flex flex-col items-center gap-1">
+        <span class="text-[17px]">💳</span><span class="text-[10px] font-semibold text-neutral-800">Cartões</span>
+      </button>
+      <button onclick="minha_conta_irExtrato()" class="mc-atalho rounded-xl py-3 flex flex-col items-center gap-1">
+        <span class="text-[17px]">📄</span><span class="text-[10px] font-semibold text-neutral-800">Extrato</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="px-5 pt-5">
+    <div class="flex items-center justify-between mb-2">
+      <h3 class="text-[11px] uppercase tracking-[.18em] text-neutral-500">Cartão virtual</h3>
+      <button onclick="mostrarTela('meus-cartoes')" class="text-[11px] font-semibold" style="color:#8a6d13">gerenciar</button>
+    </div>
+    <div class="rounded-2xl p-4" style="background:linear-gradient(135deg,#0A0A0A 0%,#1c1a14 60%,#2a2317 100%);border:1px solid rgba(212,175,55,.3)">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-[10px] uppercase tracking-[.2em]" style="color:#D4AF37">Aurum Black · Virtual</p>
+          <p id="mc-numero" class="mc-serif text-white text-[17px] mt-3 tracking-[.14em]">•••• •••• •••• 4172</p>
+        </div>
+        <span class="text-[10px] px-2 py-1 rounded-full text-black font-bold" style="background:#D4AF37">ATIVO</span>
+      </div>
+      <div class="flex items-end justify-between mt-4">
+        <div>
+          <p class="text-[9px] uppercase tracking-[.14em] text-neutral-500">Titular</p>
+          <p class="text-[12px] text-neutral-200">RENATA V. MENDES</p>
+        </div>
+        <button onclick="minha_conta_verNumero()" id="mc-btn-num" class="text-[11px] px-3 py-1.5 rounded-lg" style="border:1px solid rgba(212,175,55,.45);color:#D4AF37">Ver número</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-5 pt-6 pb-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-[11px] uppercase tracking-[.18em] text-neutral-500">Últimas transações</h3>
+      <button onclick="minha_conta_irExtrato()" class="text-[11px] font-semibold" style="color:#8a6d13">extrato completo</button>
+    </div>
+    <div class="flex gap-2 mt-3">
+      <button onclick="minha_conta_filtro('todas',this)" class="mc-filtro text-[11px] px-3 py-1.5 rounded-full font-semibold" data-f="todas">Todas</button>
+      <button onclick="minha_conta_filtro('entrada',this)" class="mc-filtro text-[11px] px-3 py-1.5 rounded-full font-semibold" data-f="entrada">Entradas</button>
+      <button onclick="minha_conta_filtro('saida',this)" class="mc-filtro text-[11px] px-3 py-1.5 rounded-full font-semibold" data-f="saida">Saídas</button>
+    </div>
+  </div>
+
+  <div id="mc-lista" class="px-5 pb-1"></div>
+
+  <div class="px-5 pt-3 pb-8">
+    <button onclick="mostrarTela('suporte-e-documentos')" class="w-full rounded-xl px-4 py-3.5 flex items-center gap-3 text-left" style="background:#FAFAFA;border:1px solid #e7e3d8">
+      <span class="w-9 h-9 rounded-full flex items-center justify-center text-[15px]" style="background:#0A0A0A;color:#D4AF37">💬</span>
+      <span class="flex-1">
+        <span class="block text-[13px] font-semibold text-neutral-900">Central de relacionamento</span>
+        <span class="block text-[11px] text-neutral-500">Chat 24h, documentos e comprovantes</span>
+      </span>
+      <span class="text-neutral-400 text-lg">›</span>
+    </button>
+  </div>
+
+  <script>
+    var minha_conta_dados = [
+      {t:'entrada',ic:'⚡',n:'Pix recebido · Marcos A. Ferreira',d:'Hoje · 11:42',v:'+ R$ 1.280,00',id:'PIX-88213'},
+      {t:'saida',ic:'💳',n:'Cartão Aurum · Supermercado Pão de Açúcar',d:'Hoje · 09:15',v:'- R$ 342,88',id:'CRD-40912'},
+      {t:'saida',ic:'🧾',n:'Boleto · Enel Distribuição SP',d:'14 out · 18:03',v:'- R$ 214,79',id:'BOL-77410'},
+      {t:'entrada',ic:'🏦',n:'Salário · Volpato Engenharia LTDA',d:'05 out · 08:00',v:'+ R$ 8.580,00',id:'TED-11238'},
+      {t:'saida',ic:'⚡',n:'Pix enviado · Clínica Odonto Sorriso',d:'03 out · 16:27',v:'- R$ 480,00',id:'PIX-88190'}
+    ];
+    var minha_conta_f = 'todas', minha_conta_aberto = -1;
+
+    function minha_conta_render(){
+      var l = document.getElementById('mc-lista'), h = '';
+      minha_conta_dados.forEach(function(x,i){
+        if(minha_conta_f !== 'todas' && x.t !== minha_conta_f) return;
+        var cor = x.t === 'entrada' ? '#1f6b3a' : '#0A0A0A';
+        h += '<div class="mc-linha"><button onclick="minha_conta_abrir('+i+')" class="w-full flex items-center gap-3 py-3 text-left">'+
+          '<span class="w-9 h-9 rounded-full flex items-center justify-center text-[14px] shrink-0" style="background:#F2EFE6;border:1px solid #e7e3d8">'+x.ic+'</span>'+
+          '<span class="flex-1 min-w-0"><span class="block text-[13px] font-semibold text-neutral-900 truncate">'+x.n+'</span>'+
+          '<span class="block text-[11px] text-neutral-500">'+x.d+'</span></span>'+
+          '<span class="text-[13px] font-semibold shrink-0" style="color:'+cor+'">'+x.v+'</span></button>'+
+          (minha_conta_aberto === i ? '<div class="pb-3 pl-12"><p class="text-[11px] text-neutral-500 mb-2">Autenticação '+x.id+' · Conta 0001 / 39.482-7</p>'+
+          '<button onclick="mostrarTela(\'confirmacao-e-comprovante\')" class="text-[11px] font-bold px-3 py-2 rounded-lg text-black" style="background:#D4AF37">Ver comprovante</button></div>' : '')+
+          '</div>';
+      });
+      if(!h) h = '<p class="text-[12px] text-neutral-500 py-6 text-center">Nenhuma transação neste filtro.</p>';
+      l.innerHTML = h;
+    }
+    function minha_conta_abrir(i){ minha_conta_aberto = (minha_conta_aberto === i ? -1 : i); minha_conta_render(); }
+    function minha_conta_filtro(f,el){
+      minha_conta_f = f; minha_conta_aberto = -1;
+      document.querySelectorAll('.mc-filtro').forEach(function(b){
+        b.style.background = '#FAFAFA'; b.style.color = '#404040'; b.style.border = '1px solid #e7e3d8';
+      });
+      el.style.background = '#0A0A0A'; el.style.color = '#D4AF37'; el.style.border = '1px solid #0A0A0A';
+      minha_conta_render();
+    }
+    function minha_conta_toggleNotif(){ document.getElementById('mc-notif').classList.toggle('hidden'); }
+    function minha_conta_lerTudo(){
+      document.getElementById('mc-badge').style.display = 'none';
+      document.getElementById('mc-notif').classList.add('hidden');
+    }
+    function minha_conta_olho(){
+      var s = document.getElementById('mc-saldo'), b = document.getElementById('mc-olho');
+      if(b.textContent === 'ocultar'){ s.textContent = 'R$ ••••••'; b.textContent = 'mostrar'; }
+      else { s.textContent = 'R$ 18.472,35'; b.textContent = 'ocultar'; }
+    }
+    function minha_conta_verNumero(){
+      var n = document.getElementById('mc-numero'), b = document.getElementById('mc-btn-num');
+      if(b.textContent === 'Ver número'){ n.textContent = '5412 8830 7761 4172'; b.textContent = 'Ocultar'; }
+      else { n.textContent = '•••• •••• •••• 4172'; b.textContent = 'Ver número'; }
+    }
+    function minha_conta_irExtrato(){ minha_conta_filtro('todas', document.querySelector('.mc-filtro')); minha_conta_abrir(0); }
+    (function(){
+      minha_conta_render();
+      var p = document.querySelector('.mc-filtro');
+      if(p){ p.style.background = '#0A0A0A'; p.style.color = '#D4AF37'; p.style.border = '1px solid #0A0A0A'; }
+      document.querySelectorAll('.mc-filtro').forEach(function(b){
+        if(b.dataset.f !== 'todas'){ b.style.background = '#FAFAFA'; b.style.color = '#404040'; b.style.border = '1px solid #e7e3d8'; }
+      });
+    })();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
