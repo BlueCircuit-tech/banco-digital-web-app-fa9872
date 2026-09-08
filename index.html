@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco Aurum — Conta Digital</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          carbon: '#0A0A0A',
+          carbon2: '#141414',
+          carbon3: '#1F1F1F',
+          ouro: '#D4AF37',
+          ouro2: '#B8942A',
+          ouroluz: '#F0DC91',
+          neve: '#FAFAFA',
+          neve2: '#EDEDE7',
+          cinza: '#8A8A82'
+        },
+        fontFamily: {
+          sans: ['"IBM Plex Sans"', 'sans-serif'],
+          serif: ['"Libre Baskerville"', 'serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html, body { background:#0A0A0A; }
+  body { -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  #aparelho { max-width: 430px; }
+  main { padding-bottom: 84px; }
+  [data-nav] { color:#8A8A82; transition: color .18s ease, background .18s ease; }
+  [data-nav] svg { stroke-width: 1.6; }
+  [data-nav].ativo { color:#D4AF37; }
+  [data-nav].ativo .nav-pino { opacity: 1; }
+  [data-nav].ativo .nav-caixa { background: rgba(212,175,55,.10); border-color: rgba(212,175,55,.35); }
+  .nav-pino { opacity: 0; }
+  .barra-topo::after { content:''; display:block; height:1px; background:linear-gradient(90deg,transparent,#D4AF37,transparent); }
+  ::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body class="font-sans text-neve">
+
+<div id="aparelho" class="mx-auto min-h-screen bg-carbon relative shadow-[0_0_60px_rgba(0,0,0,.9)]">
+
+  <main>
+    <!-- TELAS -->
+  </main>
+
+  <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-carbon2/98 backdrop-blur border-t border-neve/10 z-40">
+    <div class="grid grid-cols-6">
+
+      <button data-nav="minha-conta" onclick="mostrarTela('minha-conta')" class="flex flex-col items-center pt-2 pb-2 gap-1">
+        <span class="nav-pino block w-6 h-[2px] bg-ouro rounded-full"></span>
+        <span class="nav-caixa border border-transparent rounded-md p-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-[19px] h-[19px]"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 10.5V20h14v-9.5"/><path d="M9.5 20v-5.5h5V20"/></svg>
+        </span>
+        <span class="text-[9px] tracking-wide font-medium">Conta</span>
+      </button>
+
+      <button data-nav="transferencia-pix" onclick="mostrarTela('transferencia-pix')" class="flex flex-col items-center pt-2 pb-2 gap-1">
+        <span class="nav-pino block w-6 h-[2px] bg-ouro rounded-full"></span>
+        <span class="nav-caixa border border-transparent rounded-md p-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-[19px] h-[19px]"><path d="M8.5 3.8 3.8 8.5a2.4 2.4 0 0 0 0 3.4l4.7 4.7"/><path d="M15.5 20.2l4.7-4.7a2.4 2.4 0 0 0 0-3.4l-4.7-4.7"/><path d="M7.4 12h9.2"/><path d="M12 7.4v9.2"/></svg>
+        </span>
+        <span class="text-[9px] tracking-wide font-medium">Pix</span>
+      </button>
+
+      <button data-nav="confirmacao-e-comprovante" onclick="mostrarTela('confirmacao-e-comprovante')" class="flex flex-col items-center pt-2 pb-2 gap-1">
+        <span class="nav-pino block w-6 h-[2px] bg-ouro rounded-full"></span>
+        <span class="nav-caixa border border-transparent rounded-md p-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-[19px] h-[19px]"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 9h6"/><path d="M9 13h4"/></svg>
+        </span>
+        <span class="text-[9px] tracking-wide font-medium">Comprov.</span>
+      </button>
+
+      <button data-nav="pagar-boleto" onclick="mostrarTela('pagar-boleto')" class="flex flex-col items-center pt-2 pb-2 gap-1">
+        <span class="nav-pino block w-6 h-[2px] bg-ouro rounded-full"></span>
+        <span class="nav-caixa border border-transparent rounded-md p-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-[19px] h-[19px]"><path d="M4 5v14"/><path d="M7 5v14"/><path d="M10.5 5v14"/><path d="M14 5v14"/><path d="M17 5v14"/><path d="M20 5v14"/></svg>
+        </span>
+        <span class="text-[9px] tracking-wide font-medium">Boleto</span>
+      </button>
+
+      <button data-nav="meus-cartoes" onclick="mostrarTela('meus-cartoes')" class="flex flex-col items-center pt-2 pb-2 gap-1">
+        <span class="nav-pino block w-6 h-[2px] bg-ouro rounded-full"></span>
+        <span class="nav-caixa border border-transparent rounded-md p-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-[19px] h-[19px]"><rect x="2.5" y="5.5" width="19" height="13" rx="2.2"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg>
+        </span>
+        <span class="text-[9px] tracking-wide font-medium">Cartões</span>
+      </button>
+
+      <button data-nav="suporte-e-documentos" onclick="mostrarTela('suporte-e-documentos')" class="flex flex-col items-center pt-2 pb-2 gap-1">
+        <span class="nav-pino block w-6 h-[2px] bg-ouro rounded-full"></span>
+        <span class="nav-caixa border border-transparent rounded-md p-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-[19px] h-[19px]"><path d="M20.5 12a8.5 8.5 0 1 0-3.2 6.6l3.2.9-.9-3.2A8.4 8.4 0 0 0 20.5 12Z"/><path d="M9.6 9.7a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 1.8-2.4 3.4"/><path d="M12 17.1h.01"/></svg>
+        </span>
+        <span class="text-[9px] tracking-wide font-medium">Suporte</span>
+      </button>
+
+    </div>
+    <div class="h-[env(safe-area-inset-bottom)] bg-carbon2"></div>
+  </nav>
+
+</div>
+
+<script>
+  function mostrarTela(id) {
+    document.querySelectorAll('[data-tela]').forEach(function (s) {
+      s.classList.toggle('hidden', s.dataset.tela !== id);
+    });
+    document.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.classList.toggle('ativo', b.dataset.nav === id);
+    });
+    window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    mostrarTela('minha-conta');
+  });
+</script>
+
+</body>
+</html>
