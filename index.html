@@ -734,6 +734,237 @@
   </script>
 </section>
 
+    <section data-tela="pagar-boleto" class="hidden">
+  <style>
+    .pb-card{background:#111111;border:1px solid #232323;border-radius:14px}
+    .pb-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8A8A8A}
+    .pb-input{width:100%;background:#0A0A0A;border:1px solid #2E2E2E;border-radius:10px;padding:12px 14px;color:#FAFAFA;font-size:14px;outline:none}
+    .pb-input:focus{border-color:#D4AF37}
+    .pb-tab{flex:1;padding:10px 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border-radius:9px;transition:.2s}
+    .pb-tab-on{background:#D4AF37;color:#0A0A0A;font-weight:700}
+    .pb-tab-off{color:#9A9A9A}
+  </style>
+
+  <div class="px-5 pt-5 pb-28 bg-[#0A0A0A] text-[#FAFAFA] min-h-screen">
+
+    <div class="flex items-center gap-3 mb-5">
+      <button onclick="mostrarTela('minha-conta')" class="w-9 h-9 rounded-full border border-[#2E2E2E] flex items-center justify-center text-[#D4AF37]">‹</button>
+      <div>
+        <h2 class="text-lg font-semibold tracking-wide">Pagamento de Boleto</h2>
+        <p class="text-[11px] text-[#8A8A8A]">Conta Corrente 4471-2 · 0001</p>
+      </div>
+    </div>
+
+    <div class="flex gap-2 p-1 rounded-xl bg-[#141414] border border-[#232323] mb-5">
+      <button id="pb-tab-novo" class="pb-tab pb-tab-on" onclick="pagar_boleto_aba('novo')">Novo pagamento</button>
+      <button id="pb-tab-hist" class="pb-tab pb-tab-off" onclick="pagar_boleto_aba('hist')">Histórico</button>
+    </div>
+
+    <div id="pb-view-novo">
+
+      <div id="pb-etapa-entrada">
+        <div class="pb-card p-4 mb-4">
+          <p class="pb-label mb-3">Leitura do código de barras</p>
+          <div id="pb-camera" class="h-36 rounded-xl border border-dashed border-[#3A3A3A] bg-[#0D0D0D] flex flex-col items-center justify-center gap-2">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.4"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 9v6M9 9v6M12 9v6M15 9v6M18 9v6"/></svg>
+            <p class="text-[11px] text-[#8A8A8A]">Aponte a câmera para o código</p>
+          </div>
+          <button onclick="pagar_boleto_scan()" class="mt-3 w-full py-3 rounded-xl bg-[#D4AF37] text-[#0A0A0A] text-sm font-bold tracking-wide">Abrir câmera e escanear</button>
+        </div>
+
+        <div class="pb-card p-4">
+          <p class="pb-label mb-2">Ou digite a linha digitável</p>
+          <input id="pb-linha" class="pb-input tracking-wider" inputmode="numeric" placeholder="00000.00000 00000.000000 00000.000000 0 00000000000000" oninput="pagar_boleto_valida()">
+          <p id="pb-erro" class="hidden text-[11px] text-[#E06B6B] mt-2">Linha digitável incompleta — informe 47 dígitos.</p>
+          <button id="pb-btn-consultar" disabled onclick="pagar_boleto_consultar()" class="mt-3 w-full py-3 rounded-xl bg-[#1C1C1C] text-[#6A6A6A] text-sm font-bold tracking-wide">Consultar boleto</button>
+          <button onclick="pagar_boleto_exemplo()" class="mt-2 w-full py-2 text-[11px] text-[#D4AF37] underline underline-offset-4">Preencher com boleto de exemplo</button>
+        </div>
+      </div>
+
+      <div id="pb-etapa-dados" class="hidden">
+        <div class="pb-card p-4 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <p class="pb-label">Dados do boleto</p>
+            <span class="text-[10px] px-2 py-1 rounded-full bg-[#1E1A0C] text-[#D4AF37] border border-[#4A3D14]">Validado</span>
+          </div>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between gap-3"><span class="text-[#8A8A8A]">Beneficiário</span><span id="pb-benef" class="text-right font-medium">Companhia Paulista de Energia S.A.</span></div>
+            <div class="flex justify-between gap-3"><span class="text-[#8A8A8A]">CNPJ</span><span id="pb-doc" class="text-right">61.695.227/0001-93</span></div>
+            <div class="flex justify-between gap-3"><span class="text-[#8A8A8A]">Pagador</span><span class="text-right">Marina Albuquerque Prado</span></div>
+            <div class="flex justify-between gap-3"><span class="text-[#8A8A8A]">Vencimento</span><span id="pb-venc" class="text-right">18/06/2024</span></div>
+            <div class="flex justify-between gap-3"><span class="text-[#8A8A8A]">Valor do documento</span><span id="pb-valdoc" class="text-right">R$ 284,79</span></div>
+            <div class="flex justify-between gap-3"><span class="text-[#8A8A8A]">Juros / multa</span><span id="pb-juros" class="text-right">R$ 0,00</span></div>
+            <div class="h-px bg-[#232323]"></div>
+            <div class="flex justify-between items-center"><span class="text-[#8A8A8A]">Total a pagar</span><span id="pb-total" class="text-xl font-bold text-[#D4AF37]">R$ 284,79</span></div>
+          </div>
+        </div>
+
+        <div class="pb-card p-4 mb-4">
+          <p class="pb-label mb-3">Data do pagamento</p>
+          <div class="grid grid-cols-3 gap-2 mb-3">
+            <button id="pb-d-hoje" onclick="pagar_boleto_data('hoje','17/06/2024')" class="py-2 rounded-lg text-xs bg-[#D4AF37] text-[#0A0A0A] font-bold">Hoje</button>
+            <button id="pb-d-venc" onclick="pagar_boleto_data('venc','18/06/2024')" class="py-2 rounded-lg text-xs bg-[#181818] border border-[#2E2E2E] text-[#BFBFBF]">No vencimento</button>
+            <button id="pb-d-out" onclick="pagar_boleto_data('outra','')" class="py-2 rounded-lg text-xs bg-[#181818] border border-[#2E2E2E] text-[#BFBFBF]">Outra data</button>
+          </div>
+          <input id="pb-data-livre" type="date" value="2024-06-20" class="pb-input hidden" onchange="pagar_boleto_dataLivre(this.value)">
+          <p class="text-[11px] text-[#8A8A8A] mt-2">Agendado para <span id="pb-data-txt" class="text-[#FAFAFA]">17/06/2024</span> · Saldo disponível R$ 12.480,55</p>
+        </div>
+
+        <div class="pb-card p-4 mb-4">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input id="pb-notif" type="checkbox" checked class="mt-1 accent-[#D4AF37] w-4 h-4">
+            <span class="text-xs text-[#BFBFBF]">Avisar por WhatsApp e push quando o pagamento for liquidado</span>
+          </label>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="pagar_boleto_voltarEntrada()" class="flex-1 py-3 rounded-xl border border-[#2E2E2E] text-sm text-[#BFBFBF]">Corrigir</button>
+          <button onclick="pagar_boleto_confirmar()" class="flex-[1.6] py-3 rounded-xl bg-[#D4AF37] text-[#0A0A0A] text-sm font-bold tracking-wide">Confirmar pagamento</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="pb-view-hist" class="hidden">
+      <div class="pb-card p-4 mb-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="pb-label">Pago em junho/2024</p>
+            <p class="text-xl font-bold text-[#D4AF37] mt-1">R$ 1.936,42</p>
+          </div>
+          <div class="text-right">
+            <p class="pb-label">Boletos</p>
+            <p class="text-xl font-bold mt-1">04</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="pb-label mb-2">Comprovantes salvos</p>
+      <div class="space-y-2" id="pb-lista"></div>
+
+      <div id="pb-detalhe" class="hidden pb-card p-4 mt-4">
+        <p class="pb-label mb-3">Comprovante</p>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between"><span class="text-[#8A8A8A]">Beneficiário</span><span id="pb-d-benef" class="text-right"></span></div>
+          <div class="flex justify-between"><span class="text-[#8A8A8A]">Pago em</span><span id="pb-d-data"></span></div>
+          <div class="flex justify-between"><span class="text-[#8A8A8A]">Valor</span><span id="pb-d-valor" class="text-[#D4AF37] font-bold"></span></div>
+          <div class="flex justify-between"><span class="text-[#8A8A8A]">Autenticação</span><span id="pb-d-aut" class="text-[11px]"></span></div>
+        </div>
+        <button onclick="mostrarTela('confirmacao-e-comprovante')" class="mt-4 w-full py-3 rounded-xl bg-[#D4AF37] text-[#0A0A0A] text-sm font-bold">Ver comprovante completo</button>
+        <button onclick="mostrarTela('suporte-e-documentos')" class="mt-2 w-full py-2 text-[11px] text-[#D4AF37] underline underline-offset-4">Contestar este pagamento no suporte</button>
+      </div>
+    </div>
+
+    <div class="mt-6 flex gap-3">
+      <button onclick="mostrarTela('transferencia-pix')" class="flex-1 py-3 rounded-xl border border-[#2E2E2E] text-xs text-[#BFBFBF]">Pagar via Pix</button>
+      <button onclick="mostrarTela('meus-cartoes')" class="flex-1 py-3 rounded-xl border border-[#2E2E2E] text-xs text-[#BFBFBF]">Fatura do cartão</button>
+    </div>
+  </div>
+
+  <script>
+    var pagar_boleto_hist = [
+      {b:"Condomínio Edifício Aurora",d:"10/06/2024",v:"R$ 890,00",a:"E2364.9917.4471.0012"},
+      {b:"Sabesp - Água e Esgoto",d:"07/06/2024",v:"R$ 132,45",a:"E2364.8820.4471.0008"},
+      {b:"Unimed Seguros Saúde S.A.",d:"05/06/2024",v:"R$ 629,18",a:"E2364.7715.4471.0003"},
+      {b:"Colégio Santa Helena",d:"03/06/2024",v:"R$ 284,79",a:"E2364.6604.4471.0001"}
+    ];
+
+    function pagar_boleto_render(){
+      var alvo=document.getElementById('pb-lista');
+      alvo.innerHTML = pagar_boleto_hist.map(function(i,n){
+        return '<button onclick="pagar_boleto_abrir('+n+')" class="w-full pb-card p-3 flex items-center justify-between text-left">'+
+          '<div><p class="text-sm font-medium">'+i.b+'</p><p class="text-[11px] text-[#8A8A8A] mt-1">Pago em '+i.d+'</p></div>'+
+          '<div class="text-right"><p class="text-sm text-[#D4AF37] font-semibold">'+i.v+'</p><p class="text-[10px] text-[#6A6A6A] mt-1">ver ›</p></div></button>';
+      }).join('');
+    }
+    pagar_boleto_render();
+
+    function pagar_boleto_abrir(n){
+      var i=pagar_boleto_hist[n];
+      document.getElementById('pb-d-benef').textContent=i.b;
+      document.getElementById('pb-d-data').textContent=i.d;
+      document.getElementById('pb-d-valor').textContent=i.v;
+      document.getElementById('pb-d-aut').textContent=i.a;
+      document.getElementById('pb-detalhe').classList.remove('hidden');
+      document.getElementById('pb-detalhe').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    function pagar_boleto_aba(q){
+      var novo=q==='novo';
+      document.getElementById('pb-view-novo').classList.toggle('hidden',!novo);
+      document.getElementById('pb-view-hist').classList.toggle('hidden',novo);
+      document.getElementById('pb-tab-novo').className='pb-tab '+(novo?'pb-tab-on':'pb-tab-off');
+      document.getElementById('pb-tab-hist').className='pb-tab '+(novo?'pb-tab-off':'pb-tab-on');
+    }
+
+    function pagar_boleto_valida(){
+      var d=document.getElementById('pb-linha').value.replace(/\D/g,'');
+      var btn=document.getElementById('pb-btn-consultar');
+      var ok=d.length>=47;
+      document.getElementById('pb-erro').classList.toggle('hidden', ok || d.length===0);
+      btn.disabled=!ok;
+      btn.className='mt-3 w-full py-3 rounded-xl text-sm font-bold tracking-wide '+(ok?'bg-[#D4AF37] text-[#0A0A0A]':'bg-[#1C1C1C] text-[#6A6A6A]');
+    }
+
+    function pagar_boleto_exemplo(){
+      document.getElementById('pb-linha').value='23793.38128 60007.827013 95000.063305 4 98730000028479';
+      pagar_boleto_valida();
+    }
+
+    function pagar_boleto_scan(){
+      var cam=document.getElementById('pb-camera');
+      cam.innerHTML='<p class="text-[11px] text-[#D4AF37] animate-pulse">Lendo código de barras…</p>';
+      setTimeout(function(){
+        cam.innerHTML='<p class="text-[11px] text-[#D4AF37]">Código capturado com sucesso</p>';
+        pagar_boleto_exemplo();
+        pagar_boleto_consultar();
+      },1100);
+    }
+
+    function pagar_boleto_consultar(){
+      document.getElementById('pb-etapa-entrada').classList.add('hidden');
+      document.getElementById('pb-etapa-dados').classList.remove('hidden');
+    }
+
+    function pagar_boleto_voltarEntrada(){
+      document.getElementById('pb-etapa-dados').classList.add('hidden');
+      document.getElementById('pb-etapa-entrada').classList.remove('hidden');
+    }
+
+    function pagar_boleto_data(tipo,txt){
+      var ids={hoje:'pb-d-hoje',venc:'pb-d-venc',outra:'pb-d-out'};
+      for(var k in ids){
+        var el=document.getElementById(ids[k]);
+        el.className = (k===tipo) ? 'py-2 rounded-lg text-xs bg-[#D4AF37] text-[#0A0A0A] font-bold' : 'py-2 rounded-lg text-xs bg-[#181818] border border-[#2E2E2E] text-[#BFBFBF]';
+      }
+      var livre=document.getElementById('pb-data-livre');
+      livre.classList.toggle('hidden',tipo!=='outra');
+      if(tipo==='outra'){ pagar_boleto_dataLivre(livre.value); }
+      else{ document.getElementById('pb-data-txt').textContent=txt; }
+      var juros = (tipo==='outra');
+      document.getElementById('pb-juros').textContent = juros ? 'R$ 3,12' : 'R$ 0,00';
+      document.getElementById('pb-total').textContent = juros ? 'R$ 287,91' : 'R$ 284,79';
+    }
+
+    function pagar_boleto_dataLivre(v){
+      if(!v) return;
+      var p=v.split('-');
+      document.getElementById('pb-data-txt').textContent=p[2]+'/'+p[1]+'/'+p[0];
+    }
+
+    function pagar_boleto_confirmar(){
+      var total=document.getElementById('pb-total').textContent;
+      var data=document.getElementById('pb-data-txt').textContent;
+      pagar_boleto_hist.unshift({b:'Companhia Paulista de Energia S.A.',d:data,v:total,a:'E2364.9928.4471.0031'});
+      pagar_boleto_render();
+      document.getElementById('pb-linha').value='';
+      pagar_boleto_valida();
+      pagar_boleto_voltarEntrada();
+      document.getElementById('pb-camera').innerHTML='<p class="text-[11px] text-[#8A8A8A]">Aponte a câmera para o código</p>';
+      mostrarTela('confirmacao-e-comprovante');
+    }
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
