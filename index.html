@@ -965,6 +965,246 @@
   </script>
 </section>
 
+    <section data-tela="meus-cartoes" class="hidden">
+  <style>
+    .mc-card{background:linear-gradient(135deg,#0A0A0A 0%,#1c1a12 55%,#2a2413 100%);border:1px solid rgba(212,175,55,.35)}
+    .mc-chip{background:linear-gradient(135deg,#D4AF37,#f0dc94);}
+    .mc-acao{background:#FAFAFA;border:1px solid #e4e0d2}
+    .mc-lanc{border-bottom:1px solid #ececec}
+    .mc-dot{width:7px;height:7px;border-radius:99px;background:#d8d4c4}
+    .mc-dot.on{background:#D4AF37;width:18px}
+  </style>
+
+  <div class="px-5 pt-5 pb-2">
+    <p class="text-[11px] tracking-[.18em] text-[#8a8574] uppercase">Cartões</p>
+    <h2 class="text-[22px] font-semibold text-[#0A0A0A] tracking-tight">Meus Cartões</h2>
+  </div>
+
+  <div id="mc-carrossel" class="flex gap-4 overflow-x-auto px-5 pb-3 snap-x snap-mandatory" style="scrollbar-width:none">
+    <div class="snap-center shrink-0 w-[290px] mc-card rounded-2xl p-5 text-[#FAFAFA]" onclick="meus_cartoes_selecionar(0)">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-[10px] tracking-[.2em] text-[#D4AF37] uppercase">Físico · Black</p>
+          <p class="text-sm mt-1 text-[#FAFAFA]/70">Mastercard</p>
+        </div>
+        <div class="mc-chip w-9 h-7 rounded-[5px]"></div>
+      </div>
+      <p id="mc-num-0" class="mt-7 text-lg tracking-[.22em] font-medium">•••• •••• •••• 4712</p>
+      <div class="flex justify-between items-end mt-5">
+        <div>
+          <p class="text-[10px] uppercase tracking-wider text-[#FAFAFA]/50">Titular</p>
+          <p class="text-xs mt-0.5">MARIANA A. FIGUEIREDO</p>
+        </div>
+        <span id="mc-status-0" class="text-[10px] px-2 py-1 rounded-full bg-[#D4AF37] text-[#0A0A0A] font-semibold">ATIVO</span>
+      </div>
+    </div>
+
+    <div class="snap-center shrink-0 w-[290px] rounded-2xl p-5 text-[#0A0A0A]" style="background:#FAFAFA;border:1px solid #d8d4c4" onclick="meus_cartoes_selecionar(1)">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-[10px] tracking-[.2em] text-[#9a7d16] uppercase">Virtual · Compras online</p>
+          <p class="text-sm mt-1 text-[#0A0A0A]/60">Visa</p>
+        </div>
+        <div class="mc-chip w-9 h-7 rounded-[5px]"></div>
+      </div>
+      <p id="mc-num-1" class="mt-7 text-lg tracking-[.22em] font-medium">•••• •••• •••• 8093</p>
+      <div class="flex justify-between items-end mt-5">
+        <div>
+          <p class="text-[10px] uppercase tracking-wider text-[#0A0A0A]/40">Validade</p>
+          <p class="text-xs mt-0.5">09/2029 · CVV •••</p>
+        </div>
+        <span id="mc-status-1" class="text-[10px] px-2 py-1 rounded-full bg-[#0A0A0A] text-[#D4AF37] font-semibold">ATIVO</span>
+      </div>
+    </div>
+
+    <div class="snap-center shrink-0 w-[290px] rounded-2xl p-5 flex flex-col items-center justify-center text-center" style="border:1px dashed #b9b3a0;background:#fff" onclick="meus_cartoes_novoVirtual()">
+      <span class="text-3xl">➕</span>
+      <p class="mt-2 text-sm font-semibold text-[#0A0A0A]">Criar cartão virtual</p>
+      <p class="text-xs text-[#8a8574] mt-1 px-4">Gere um número temporário para compras na internet</p>
+    </div>
+  </div>
+
+  <div class="flex justify-center gap-1.5 pb-4">
+    <span class="mc-dot on" id="mc-dot-0"></span>
+    <span class="mc-dot" id="mc-dot-1"></span>
+  </div>
+
+  <div class="px-5">
+    <div class="rounded-xl p-4" style="background:#0A0A0A">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-[10px] uppercase tracking-[.15em] text-[#D4AF37]">Fatura atual · fecha 28/06</p>
+          <p id="mc-fatura" class="text-2xl font-semibold text-[#FAFAFA] mt-1">R$ 2.847,90</p>
+        </div>
+        <button onclick="mostrarTela('pagar-boleto')" class="text-xs font-semibold px-3 py-2 rounded-lg bg-[#D4AF37] text-[#0A0A0A]">Pagar fatura</button>
+      </div>
+      <div class="mt-4">
+        <div class="flex justify-between text-[11px] text-[#FAFAFA]/60 mb-1">
+          <span>Limite disponível</span>
+          <span id="mc-limite-txt">R$ 9.152,10 de R$ 12.000,00</span>
+        </div>
+        <div class="h-1.5 rounded-full bg-[#FAFAFA]/15">
+          <div id="mc-barra" class="h-1.5 rounded-full bg-[#D4AF37]" style="width:24%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-2 px-5 mt-4">
+    <button onclick="meus_cartoes_bloquear()" class="mc-acao rounded-xl py-3 flex flex-col items-center gap-1">
+      <span class="text-lg" id="mc-icone-bloq">🔒</span>
+      <span id="mc-txt-bloq" class="text-[11px] font-medium text-[#0A0A0A] leading-tight">Bloquear</span>
+    </button>
+    <button onclick="meus_cartoes_abrirLimite()" class="mc-acao rounded-xl py-3 flex flex-col items-center gap-1">
+      <span class="text-lg">📊</span>
+      <span class="text-[11px] font-medium text-[#0A0A0A] leading-tight">Ajustar limite</span>
+    </button>
+    <button onclick="meus_cartoes_novoVirtual()" class="mc-acao rounded-xl py-3 flex flex-col items-center gap-1">
+      <span class="text-lg">💳</span>
+      <span class="text-[11px] font-medium text-[#0A0A0A] leading-tight">Novo virtual</span>
+    </button>
+  </div>
+
+  <div id="mc-painel-limite" class="hidden px-5 mt-4">
+    <div class="rounded-xl p-4" style="background:#FAFAFA;border:1px solid #e4e0d2">
+      <div class="flex justify-between items-center">
+        <p class="text-sm font-semibold text-[#0A0A0A]">Ajustar limite total</p>
+        <button onclick="meus_cartoes_abrirLimite()" class="text-xs text-[#8a8574]">Fechar</button>
+      </div>
+      <p id="mc-limite-valor" class="text-xl font-semibold text-[#9a7d16] mt-2">R$ 12.000,00</p>
+      <input id="mc-range" type="range" min="2000" max="20000" step="500" value="12000" class="w-full mt-2 accent-[#D4AF37]" oninput="meus_cartoes_previewLimite(this.value)">
+      <div class="flex justify-between text-[10px] text-[#8a8574]"><span>R$ 2.000</span><span>R$ 20.000</span></div>
+      <button onclick="meus_cartoes_salvarLimite()" class="w-full mt-3 py-2.5 rounded-lg bg-[#0A0A0A] text-[#D4AF37] text-sm font-semibold">Confirmar novo limite</button>
+    </div>
+  </div>
+
+  <div class="px-5 mt-5 flex items-center justify-between">
+    <h3 class="text-sm font-semibold text-[#0A0A0A] tracking-tight">Lançamentos da fatura</h3>
+    <button onclick="mostrarTela('confirmacao-e-comprovante')" class="text-[11px] font-semibold text-[#9a7d16]">Ver extrato</button>
+  </div>
+
+  <div id="mc-lista" class="px-5 mt-2 pb-4"></div>
+
+  <div id="mc-detalhe" class="hidden fixed inset-0 z-40 items-end justify-center" style="background:rgba(10,10,10,.55)">
+    <div class="w-full max-w-[430px] rounded-t-2xl p-5" style="background:#FAFAFA">
+      <div class="w-10 h-1 rounded-full bg-[#d8d4c4] mx-auto mb-4"></div>
+      <p class="text-[10px] uppercase tracking-[.18em] text-[#8a8574]">Detalhe da compra</p>
+      <p id="mc-d-nome" class="text-lg font-semibold text-[#0A0A0A] mt-1">—</p>
+      <p id="mc-d-valor" class="text-2xl font-semibold text-[#9a7d16] mt-1">—</p>
+      <div class="mt-4 text-sm divide-y divide-[#ececec]">
+        <div class="flex justify-between py-2"><span class="text-[#8a8574]">Data</span><span id="mc-d-data" class="text-[#0A0A0A] font-medium">—</span></div>
+        <div class="flex justify-between py-2"><span class="text-[#8a8574]">Categoria</span><span id="mc-d-cat" class="text-[#0A0A0A] font-medium">—</span></div>
+        <div class="flex justify-between py-2"><span class="text-[#8a8574]">Cartão</span><span id="mc-d-cartao" class="text-[#0A0A0A] font-medium">—</span></div>
+        <div class="flex justify-between py-2"><span class="text-[#8a8574]">Parcelas</span><span id="mc-d-parc" class="text-[#0A0A0A] font-medium">—</span></div>
+        <div class="flex justify-between py-2"><span class="text-[#8a8574]">Autorização</span><span id="mc-d-aut" class="text-[#0A0A0A] font-medium">—</span></div>
+      </div>
+      <button onclick="mostrarTela('suporte-e-documentos')" class="w-full mt-4 py-3 rounded-lg bg-[#0A0A0A] text-[#D4AF37] text-sm font-semibold">Contestar compra no suporte</button>
+      <button onclick="meus_cartoes_fecharDetalhe()" class="w-full mt-2 py-3 rounded-lg text-sm font-medium text-[#0A0A0A]" style="border:1px solid #d8d4c4">Fechar</button>
+    </div>
+  </div>
+
+  <div id="mc-toast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-lg text-xs font-semibold" style="background:#0A0A0A;color:#D4AF37">ok</div>
+
+  <script>
+    var mc_estado = {atual:0, bloqueado:[false,false], limite:12000, usado:2847.9, virtuais:1};
+    var mc_lancamentos = [
+      {n:"Supermercado Pão de Açúcar",v:412.35,d:"18/06/2024 · 19:42",c:"Mercado",ct:"Físico · final 4712",p:"À vista",a:"784512"},
+      {n:"Posto Ipiranga Av. Paulista",v:298.00,d:"17/06/2024 · 08:15",c:"Combustível",ct:"Físico · final 4712",p:"À vista",a:"651203"},
+      {n:"Drogaria São Paulo",v:87.90,d:"16/06/2024 · 12:03",c:"Saúde",ct:"Físico · final 4712",p:"À vista",a:"330984"},
+      {n:"Mercado Livre",v:1249.65,d:"14/06/2024 · 21:27",c:"Compras online",ct:"Virtual · final 8093",p:"3x de R$ 416,55",a:"902117"},
+      {n:"Netflix Brasil",v:44.90,d:"12/06/2024 · 03:00",c:"Assinaturas",ct:"Virtual · final 8093",p:"Recorrente",a:"118476"},
+      {n:"Restaurante Fasano",v:755.10,d:"09/06/2024 · 22:11",c:"Restaurantes",ct:"Físico · final 4712",p:"2x de R$ 377,55",a:"445039"}
+    ];
+    function mc_moeda(v){return "R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});}
+    function meus_cartoes_render(){
+      var l=document.getElementById("mc-lista");
+      l.innerHTML = mc_lancamentos.map(function(x,i){
+        return '<button onclick="meus_cartoes_detalhe('+i+')" class="w-full text-left mc-lanc py-3 flex items-center gap-3">'+
+        '<span class="w-9 h-9 rounded-lg flex items-center justify-center text-sm" style="background:#0A0A0A;color:#D4AF37">'+x.n.charAt(0)+'</span>'+
+        '<span class="flex-1 min-w-0"><span class="block text-sm font-medium text-[#0A0A0A] truncate">'+x.n+'</span>'+
+        '<span class="block text-[11px] text-[#8a8574]">'+x.d+' · '+x.c+'</span></span>'+
+        '<span class="text-sm font-semibold text-[#0A0A0A] whitespace-nowrap">'+mc_moeda(x.v)+'</span></button>';
+      }).join("");
+    }
+    function mc_atualizaResumo(){
+      var disp = mc_estado.limite - mc_estado.usado;
+      document.getElementById("mc-fatura").textContent = mc_moeda(mc_estado.usado);
+      document.getElementById("mc-limite-txt").textContent = mc_moeda(disp)+" de "+mc_moeda(mc_estado.limite);
+      document.getElementById("mc-barra").style.width = Math.min(100,(mc_estado.usado/mc_estado.limite*100)).toFixed(0)+"%";
+    }
+    function meus_cartoes_selecionar(i){
+      mc_estado.atual=i;
+      document.getElementById("mc-dot-0").className = "mc-dot"+(i===0?" on":"");
+      document.getElementById("mc-dot-1").className = "mc-dot"+(i===1?" on":"");
+      mc_atualizaBotaoBloqueio();
+    }
+    function mc_atualizaBotaoBloqueio(){
+      var b = mc_estado.bloqueado[mc_estado.atual];
+      document.getElementById("mc-txt-bloq").textContent = b?"Desbloquear":"Bloquear";
+      document.getElementById("mc-icone-bloq").textContent = b?"🔓":"🔒";
+      for(var i=0;i<2;i++){
+        var s=document.getElementById("mc-status-"+i);
+        if(!s)continue;
+        s.textContent = mc_estado.bloqueado[i]?"BLOQUEADO":"ATIVO";
+        s.className = mc_estado.bloqueado[i]
+          ? "text-[10px] px-2 py-1 rounded-full bg-[#7a2222] text-[#FAFAFA] font-semibold"
+          : (i===0?"text-[10px] px-2 py-1 rounded-full bg-[#D4AF37] text-[#0A0A0A] font-semibold":"text-[10px] px-2 py-1 rounded-full bg-[#0A0A0A] text-[#D4AF37] font-semibold");
+      }
+    }
+    function meus_cartoes_bloquear(){
+      var i=mc_estado.atual;
+      mc_estado.bloqueado[i]=!mc_estado.bloqueado[i];
+      mc_atualizaBotaoBloqueio();
+      mc_toast(mc_estado.bloqueado[i]?"Cartão bloqueado com sucesso":"Cartão desbloqueado");
+    }
+    function meus_cartoes_abrirLimite(){
+      document.getElementById("mc-painel-limite").classList.toggle("hidden");
+    }
+    function meus_cartoes_previewLimite(v){
+      document.getElementById("mc-limite-valor").textContent = mc_moeda(parseInt(v,10));
+    }
+    function meus_cartoes_salvarLimite(){
+      mc_estado.limite = parseInt(document.getElementById("mc-range").value,10);
+      mc_atualizaResumo();
+      document.getElementById("mc-painel-limite").classList.add("hidden");
+      mc_toast("Novo limite de "+mc_moeda(mc_estado.limite)+" aprovado");
+    }
+    function meus_cartoes_novoVirtual(){
+      mc_estado.virtuais++;
+      var f = Math.floor(1000+Math.random()*8999);
+      document.getElementById("mc-num-1").textContent = "•••• •••• •••• "+f;
+      meus_cartoes_selecionar(1);
+      document.getElementById("mc-carrossel").scrollTo({left:300,behavior:"smooth"});
+      mc_toast("Cartão virtual final "+f+" criado");
+    }
+    function meus_cartoes_detalhe(i){
+      var x=mc_lancamentos[i];
+      document.getElementById("mc-d-nome").textContent=x.n;
+      document.getElementById("mc-d-valor").textContent=mc_moeda(x.v);
+      document.getElementById("mc-d-data").textContent=x.d;
+      document.getElementById("mc-d-cat").textContent=x.c;
+      document.getElementById("mc-d-cartao").textContent=x.ct;
+      document.getElementById("mc-d-parc").textContent=x.p;
+      document.getElementById("mc-d-aut").textContent="#"+x.a;
+      var m=document.getElementById("mc-detalhe");
+      m.classList.remove("hidden"); m.classList.add("flex");
+    }
+    function meus_cartoes_fecharDetalhe(){
+      var m=document.getElementById("mc-detalhe");
+      m.classList.add("hidden"); m.classList.remove("flex");
+    }
+    function mc_toast(t){
+      var e=document.getElementById("mc-toast");
+      e.textContent=t; e.classList.remove("hidden");
+      clearTimeout(window.mc_t); window.mc_t=setTimeout(function(){e.classList.add("hidden");},2200);
+    }
+    document.getElementById("mc-carrossel").addEventListener("scroll",function(){
+      meus_cartoes_selecionar(this.scrollLeft>150?1:0);
+    });
+    meus_cartoes_render(); mc_atualizaResumo(); mc_atualizaBotaoBloqueio();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
