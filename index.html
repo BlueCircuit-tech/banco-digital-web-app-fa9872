@@ -1205,6 +1205,284 @@
   </script>
 </section>
 
+    <section data-tela="suporte-e-documentos" class="hidden">
+  <style>
+    .sd-card{background:#FFF;border:1px solid #E7E4DA;border-radius:14px}
+    .sd-tab{flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;letter-spacing:.02em;color:#6B6659;border-bottom:2px solid transparent}
+    .sd-tab-on{color:#0A0A0A;border-bottom-color:#D4AF37}
+    .sd-bal{max-width:80%;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.4}
+    .sd-lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8A8477;font-weight:700}
+  </style>
+
+  <div class="px-4 pt-4 pb-24 bg-[#FAFAFA] min-h-screen">
+
+    <div class="flex items-start justify-between">
+      <div>
+        <h2 class="text-[22px] font-semibold text-[#0A0A0A] tracking-tight">Atendimento</h2>
+        <p class="text-[13px] text-[#6B6659] mt-0.5">Central Meridian · seg a sex, 8h às 20h</p>
+      </div>
+      <button onclick="mostrarTela('minha-conta')" class="text-[12px] font-semibold text-[#6B6659] border border-[#E7E4DA] rounded-lg px-3 py-2 bg-white">Início</button>
+    </div>
+
+    <div class="mt-4 flex border-b border-[#E7E4DA]">
+      <button id="sd-t-chat" class="sd-tab sd-tab-on" onclick="suporte_e_documentos_aba('chat')">Chat</button>
+      <button id="sd-t-doc" class="sd-tab" onclick="suporte_e_documentos_aba('doc')">Documentos</button>
+      <button id="sd-t-com" class="sd-tab" onclick="suporte_e_documentos_aba('com')">Comprovantes</button>
+    </div>
+
+    <div id="sd-p-chat" class="mt-4">
+      <div class="sd-card p-3">
+        <div class="flex items-center gap-3 pb-3 border-b border-[#F0EEE7]">
+          <div class="w-10 h-10 rounded-full bg-[#0A0A0A] text-[#D4AF37] flex items-center justify-center font-semibold text-sm">CM</div>
+          <div class="flex-1">
+            <p class="text-[14px] font-semibold text-[#0A0A0A]">Carolina Menezes</p>
+            <p class="text-[11px] text-[#2E7D32] font-medium">● Online · responde em ~2 min</p>
+          </div>
+        </div>
+        <div id="sd-chat" class="py-3 space-y-2 max-h-[240px] overflow-y-auto">
+          <div class="flex"><div class="sd-bal bg-[#F2F0E9] text-[#3A362E]">Olá, Rafael! Sou a Carolina, do time Meridian. Como posso ajudar hoje?</div></div>
+          <div class="flex justify-end"><div class="sd-bal bg-[#0A0A0A] text-[#FAFAFA]">Meu envio de documentos está em análise há 2 dias.</div></div>
+          <div class="flex"><div class="sd-bal bg-[#F2F0E9] text-[#3A362E]">Verifiquei aqui: o comprovante de residência ficou ilegível. Pode reenviar na aba Documentos?</div></div>
+        </div>
+        <div class="flex flex-wrap gap-2 pb-3">
+          <button onclick="suporte_e_documentos_rapida('Como reenvio o comprovante?')" class="text-[11px] border border-[#E7E4DA] rounded-full px-3 py-1.5 text-[#6B6659]">Como reenvio?</button>
+          <button onclick="suporte_e_documentos_rapida('Qual o limite do meu Pix hoje?')" class="text-[11px] border border-[#E7E4DA] rounded-full px-3 py-1.5 text-[#6B6659]">Limite Pix</button>
+          <button onclick="suporte_e_documentos_rapida('Não reconheço uma compra no cartão.')" class="text-[11px] border border-[#E7E4DA] rounded-full px-3 py-1.5 text-[#6B6659]">Compra não reconhecida</button>
+        </div>
+        <div class="flex gap-2 border-t border-[#F0EEE7] pt-3">
+          <input id="sd-msg" type="text" placeholder="Escreva sua mensagem" onkeydown="if(event.key==='Enter')suporte_e_documentos_enviar()" class="flex-1 text-[13px] bg-[#F7F6F2] border border-[#E7E4DA] rounded-lg px-3 py-2.5 outline-none focus:border-[#D4AF37]">
+          <button onclick="suporte_e_documentos_enviar()" class="bg-[#0A0A0A] text-[#D4AF37] text-[13px] font-semibold rounded-lg px-4">Enviar</button>
+        </div>
+      </div>
+
+      <a href="https://wa.me/5511998877665?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20minha%20conta%20Meridian" target="_blank" class="mt-3 flex items-center justify-between sd-card p-3.5">
+        <div class="flex items-center gap-3">
+          <span class="text-lg">💬</span>
+          <div>
+            <p class="text-[14px] font-semibold text-[#0A0A0A]">Continuar no WhatsApp</p>
+            <p class="text-[11px] text-[#6B6659]">(11) 99887-7665 · canal oficial</p>
+          </div>
+        </div>
+        <span class="text-[#D4AF37] text-lg">›</span>
+      </a>
+
+      <p class="sd-lbl mt-5 mb-2">Conversas anteriores</p>
+      <div class="space-y-2">
+        <div onclick="suporte_e_documentos_hist(this,'Protocolo 2024-118420 · Contestação de compra de R$ 289,90 na Loja Fast Games. Valor estornado em 12/03/2024.')" class="sd-card p-3.5">
+          <div class="flex justify-between items-center">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Contestação de compra</p>
+            <span class="text-[10px] font-bold text-[#2E7D32] bg-[#E8F2E9] rounded-full px-2 py-0.5">RESOLVIDO</span>
+          </div>
+          <p class="text-[11.5px] text-[#8A8477] mt-1">12/03/2024 · Protocolo 118420</p>
+          <p class="hidden mt-2 text-[12px] text-[#3A362E] border-t border-[#F0EEE7] pt-2"></p>
+        </div>
+        <div onclick="suporte_e_documentos_hist(this,'Protocolo 2024-117903 · Segunda via do cartão Meridian Black solicitada. Entrega prevista para 05/03 na Rua Haddock Lobo, 595 - São Paulo/SP.')" class="sd-card p-3.5">
+          <div class="flex justify-between items-center">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Segunda via do cartão</p>
+            <span class="text-[10px] font-bold text-[#2E7D32] bg-[#E8F2E9] rounded-full px-2 py-0.5">RESOLVIDO</span>
+          </div>
+          <p class="text-[11.5px] text-[#8A8477] mt-1">28/02/2024 · Protocolo 117903</p>
+          <p class="hidden mt-2 text-[12px] text-[#3A362E] border-t border-[#F0EEE7] pt-2"></p>
+        </div>
+        <div onclick="suporte_e_documentos_hist(this,'Protocolo 2024-116540 · Aumento de limite Pix noturno para R$ 3.000,00 aprovado em 19/01/2024.')" class="sd-card p-3.5">
+          <div class="flex justify-between items-center">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Limite Pix noturno</p>
+            <span class="text-[10px] font-bold text-[#8A8477] bg-[#F2F0E9] rounded-full px-2 py-0.5">ENCERRADO</span>
+          </div>
+          <p class="text-[11.5px] text-[#8A8477] mt-1">19/01/2024 · Protocolo 116540</p>
+          <p class="hidden mt-2 text-[12px] text-[#3A362E] border-t border-[#F0EEE7] pt-2"></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="sd-p-doc" class="mt-4 hidden">
+      <div class="rounded-[14px] bg-[#0A0A0A] p-4">
+        <p class="text-[11px] tracking-[.08em] text-[#D4AF37] font-bold">VERIFICAÇÃO DE IDENTIDADE</p>
+        <p id="sd-kyc-st" class="text-[15px] font-semibold text-[#FAFAFA] mt-1.5">Análise pendente — 1 item a corrigir</p>
+        <div class="mt-3 h-1.5 bg-[#2A2A2A] rounded-full overflow-hidden">
+          <div id="sd-kyc-bar" class="h-full bg-[#D4AF37] rounded-full" style="width:66%"></div>
+        </div>
+        <p id="sd-kyc-sub" class="text-[11.5px] text-[#9C978A] mt-2">Rafael Andrade Lima · CPF 328.554.910-07</p>
+      </div>
+
+      <div class="mt-3 space-y-2">
+        <div class="sd-card p-3.5 flex items-center gap-3">
+          <span class="text-lg">🪪</span>
+          <div class="flex-1">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">RG / CNH (frente e verso)</p>
+            <p class="text-[11.5px] text-[#2E7D32]">Aprovado em 04/03/2024</p>
+          </div>
+          <span class="text-[#2E7D32] font-bold">✓</span>
+        </div>
+        <div class="sd-card p-3.5 flex items-center gap-3">
+          <span class="text-lg">🤳</span>
+          <div class="flex-1">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Selfie de segurança</p>
+            <p id="sd-selfie-st" class="text-[11.5px] text-[#2E7D32]">Aprovada em 04/03/2024</p>
+          </div>
+          <button onclick="suporte_e_documentos_selfie()" class="text-[11px] font-semibold text-[#0A0A0A] border border-[#D4AF37] rounded-lg px-2.5 py-1.5">Refazer</button>
+        </div>
+        <div id="sd-comp" class="sd-card p-3.5 flex items-center gap-3 border-[#D4AF37] bg-[#FFFDF5]">
+          <span class="text-lg">🏠</span>
+          <div class="flex-1">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Comprovante de residência</p>
+            <p id="sd-comp-st" class="text-[11.5px] text-[#B3261E]">Recusado · imagem ilegível</p>
+          </div>
+          <button id="sd-comp-btn" onclick="suporte_e_documentos_reenviar()" class="text-[11px] font-semibold text-[#0A0A0A] bg-[#D4AF37] rounded-lg px-2.5 py-1.5">Reenviar</button>
+        </div>
+      </div>
+
+      <div id="sd-camera" class="hidden mt-3 rounded-[14px] border border-[#E7E4DA] bg-[#0A0A0A] p-4 text-center">
+        <p class="text-[12px] text-[#9C978A]">Posicione o documento dentro da moldura</p>
+        <div class="mt-3 mx-auto h-32 w-full max-w-[240px] border-2 border-dashed border-[#D4AF37] rounded-lg flex items-center justify-center text-[#D4AF37] text-3xl">📄</div>
+        <div class="mt-4 flex gap-2">
+          <button onclick="suporte_e_documentos_camera(false)" class="flex-1 text-[13px] text-[#FAFAFA] border border-[#3A3A3A] rounded-lg py-2.5">Cancelar</button>
+          <button onclick="suporte_e_documentos_capturar()" class="flex-1 text-[13px] font-semibold text-[#0A0A0A] bg-[#D4AF37] rounded-lg py-2.5">Capturar</button>
+        </div>
+      </div>
+
+      <p class="text-[11.5px] text-[#8A8477] mt-3 leading-relaxed">Aceitamos conta de luz, água ou telefone emitida nos últimos 90 dias em nome de Rafael Andrade Lima.</p>
+    </div>
+
+    <div id="sd-p-com" class="mt-4 hidden">
+      <p class="sd-lbl mb-2">Informes e extratos</p>
+      <div class="space-y-2">
+        <div class="sd-card p-3.5 flex items-center gap-3">
+          <span class="text-lg">📑</span>
+          <div class="flex-1">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Informe de rendimentos 2023</p>
+            <p class="text-[11.5px] text-[#8A8477]">PDF · 214 KB · emitido em 26/02/2024</p>
+          </div>
+          <button onclick="suporte_e_documentos_baixar(this)" class="text-[11px] font-semibold text-[#0A0A0A] border border-[#D4AF37] rounded-lg px-2.5 py-1.5">Baixar</button>
+        </div>
+        <div class="sd-card p-3.5 flex items-center gap-3">
+          <span class="text-lg">📑</span>
+          <div class="flex-1">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Extrato consolidado · Março/2024</p>
+            <p class="text-[11.5px] text-[#8A8477]">PDF · 96 KB · conta 41.882-3</p>
+          </div>
+          <button onclick="suporte_e_documentos_baixar(this)" class="text-[11px] font-semibold text-[#0A0A0A] border border-[#D4AF37] rounded-lg px-2.5 py-1.5">Baixar</button>
+        </div>
+      </div>
+
+      <p class="sd-lbl mt-5 mb-2">Comprovantes recentes</p>
+      <div class="space-y-2">
+        <div onclick="mostrarTela('confirmacao-e-comprovante')" class="sd-card p-3.5 flex items-center justify-between">
+          <div>
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Pix · Mariana Duarte Rocha</p>
+            <p class="text-[11.5px] text-[#8A8477]">18/03/2024 · 14h22</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">R$ 450,00</p>
+            <p class="text-[11px] text-[#D4AF37] font-semibold">Ver ›</p>
+          </div>
+        </div>
+        <div onclick="mostrarTela('confirmacao-e-comprovante')" class="sd-card p-3.5 flex items-center justify-between">
+          <div>
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Boleto · Enel SP</p>
+            <p class="text-[11.5px] text-[#8A8477]">10/03/2024 · 09h05</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">R$ 187,43</p>
+            <p class="text-[11px] text-[#D4AF37] font-semibold">Ver ›</p>
+          </div>
+        </div>
+        <div onclick="mostrarTela('confirmacao-e-comprovante')" class="sd-card p-3.5 flex items-center justify-between">
+          <div>
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">Pix · Padaria Vila Nova ME</p>
+            <p class="text-[11.5px] text-[#8A8477]">08/03/2024 · 19h47</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[13.5px] font-semibold text-[#0A0A0A]">R$ 62,30</p>
+            <p class="text-[11px] text-[#D4AF37] font-semibold">Ver ›</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-2">
+        <button onclick="mostrarTela('transferencia-pix')" class="bg-[#0A0A0A] text-[#D4AF37] text-[13px] font-semibold rounded-xl py-3">Novo Pix</button>
+        <button onclick="mostrarTela('pagar-boleto')" class="border border-[#0A0A0A] text-[#0A0A0A] text-[13px] font-semibold rounded-xl py-3">Pagar boleto</button>
+      </div>
+      <button onclick="mostrarTela('meus-cartoes')" class="mt-2 w-full text-[12.5px] font-semibold text-[#6B6659] py-2">Ver meus cartões</button>
+    </div>
+
+    <div id="sd-toast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#0A0A0A] text-[#FAFAFA] text-[12.5px] px-4 py-2.5 rounded-lg shadow-lg z-40"></div>
+  </div>
+
+  <script>
+    function suporte_e_documentos_toast(t){
+      var e=document.getElementById('sd-toast');e.textContent=t;e.classList.remove('hidden');
+      clearTimeout(window.sdTm);window.sdTm=setTimeout(function(){e.classList.add('hidden')},2200);
+    }
+    function suporte_e_documentos_aba(a){
+      ['chat','doc','com'].forEach(function(k){
+        document.getElementById('sd-p-'+k).classList.toggle('hidden',k!==a);
+        document.getElementById('sd-t-'+k).classList.toggle('sd-tab-on',k===a);
+      });
+    }
+    function suporte_e_documentos_bolha(txt,eu){
+      var c=document.getElementById('sd-chat'),w=document.createElement('div');
+      w.className='flex'+(eu?' justify-end':'');
+      var b=document.createElement('div');
+      b.className='sd-bal '+(eu?'bg-[#0A0A0A] text-[#FAFAFA]':'bg-[#F2F0E9] text-[#3A362E]');
+      b.textContent=txt;w.appendChild(b);c.appendChild(w);c.scrollTop=c.scrollHeight;
+    }
+    function suporte_e_documentos_responder(m){
+      var r='Certo! Já registrei sua solicitação e retorno em instantes.';
+      if(/reenv|comprovante|document/i.test(m)) r='É só abrir a aba Documentos e tocar em "Reenviar" no comprovante de residência.';
+      else if(/limite|pix/i.test(m)) r='Seu limite Pix é de R$ 5.000,00 por dia e R$ 3.000,00 entre 20h e 6h.';
+      else if(/compra|cart/i.test(m)) r='Vou abrir a contestação. Confirme a compra na aba Meus Cartões, por favor.';
+      setTimeout(function(){suporte_e_documentos_bolha(r,false)},700);
+    }
+    function suporte_e_documentos_enviar(){
+      var i=document.getElementById('sd-msg'),v=i.value.trim();
+      if(!v)return;suporte_e_documentos_bolha(v,true);i.value='';suporte_e_documentos_responder(v);
+    }
+    function suporte_e_documentos_rapida(t){
+      suporte_e_documentos_bolha(t,true);suporte_e_documentos_responder(t);
+    }
+    function suporte_e_documentos_hist(el,txt){
+      var p=el.querySelector('p.hidden, p.mt-2.text-\\[12px\\]');
+      var d=el.lastElementChild;
+      if(d.classList.contains('hidden')){d.textContent=txt;d.classList.remove('hidden');}
+      else{d.classList.add('hidden');}
+    }
+    function suporte_e_documentos_camera(v){
+      suporte_e_documentos_aba('doc');
+      document.getElementById('sd-camera').classList.toggle('hidden',!v);
+    }
+    function suporte_e_documentos_reenviar(){
+      window.sdAlvo='comp';suporte_e_documentos_camera(true);
+    }
+    function suporte_e_documentos_selfie(){
+      window.sdAlvo='selfie';suporte_e_documentos_camera(true);
+    }
+    function suporte_e_documentos_capturar(){
+      suporte_e_documentos_camera(false);
+      if(window.sdAlvo==='selfie'){
+        document.getElementById('sd-selfie-st').textContent='Nova selfie enviada · em análise';
+        document.getElementById('sd-selfie-st').className='text-[11.5px] text-[#8A6D0B]';
+        suporte_e_documentos_toast('Selfie enviada para análise');
+        return;
+      }
+      var st=document.getElementById('sd-comp-st');
+      st.textContent='Enviado em 20/03/2024 · em análise';
+      st.className='text-[11.5px] text-[#8A6D0B]';
+      document.getElementById('sd-comp').className='sd-card p-3.5 flex items-center gap-3';
+      document.getElementById('sd-comp-btn').outerHTML='<span class="text-[11px] font-semibold text-[#8A6D0B]">⏳</span>';
+      document.getElementById('sd-kyc-st').textContent='Documentos em análise';
+      document.getElementById('sd-kyc-sub').textContent='Retorno em até 24 horas úteis';
+      document.getElementById('sd-kyc-bar').style.width='100%';
+      suporte_e_documentos_toast('Comprovante enviado com sucesso');
+      suporte_e_documentos_bolha('Recebi seu comprovante, Rafael. Retorno em até 24h úteis!',false);
+    }
+    function suporte_e_documentos_baixar(b){
+      b.textContent='Baixado ✓';b.className='text-[11px] font-semibold text-[#2E7D32] border border-[#CFE3D0] rounded-lg px-2.5 py-1.5';
+      suporte_e_documentos_toast('Arquivo salvo em Downloads');
+    }
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
