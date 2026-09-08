@@ -240,6 +240,284 @@
   </script>
 </section>
 
+    <section data-tela="transferencia-pix" class="hidden">
+  <style>
+    .pix-card{background:#111;border:1px solid rgba(212,175,55,.18);border-radius:14px}
+    .pix-chip{border:1px solid rgba(212,175,55,.35);color:#D4AF37;border-radius:999px;font-size:11px;letter-spacing:.06em}
+    .pix-chip.ativo{background:#D4AF37;color:#0A0A0A;border-color:#D4AF37}
+    .pix-key{background:#0F0F0F;border:1px solid rgba(250,250,250,.10);border-radius:12px}
+    .pix-tecla{background:#141414;border:1px solid rgba(250,250,250,.07);border-radius:12px;color:#FAFAFA;font-size:20px;padding:14px 0}
+    .pix-tecla:active{background:#D4AF37;color:#0A0A0A}
+    .pix-av{width:38px;height:38px;border-radius:999px;background:#1A1A1A;color:#D4AF37;border:1px solid rgba(212,175,55,.3);font-size:13px;font-weight:600}
+  </style>
+
+  <div class="px-5 pt-5 pb-28 text-[#FAFAFA]" style="background:#0A0A0A">
+
+    <div class="flex items-center justify-between mb-4">
+      <button onclick="mostrarTela('minha-conta')" class="flex items-center gap-2 text-[11px] tracking-[.16em] text-[#8A8A8A] uppercase">
+        <span class="text-[#D4AF37] text-base leading-none">‹</span> Conta
+      </button>
+      <span class="text-[10px] tracking-[.2em] text-[#D4AF37] uppercase">Pix · Envio</span>
+    </div>
+
+    <h1 class="text-[22px] font-semibold tracking-tight">Transferência Pix</h1>
+    <p class="text-[12px] text-[#7E7E7E] mt-1 mb-5">Saldo disponível <span class="text-[#FAFAFA]">R$ 12.480,35</span> · Limite noturno R$ 1.000,00</p>
+
+    <div class="flex gap-2 mb-4 overflow-x-auto pb-1" id="pixTipos">
+      <button onclick="transferencia_pix_tipo(this,'CPF / CNPJ','000.000.000-00')" class="pix-chip ativo px-3 py-1.5 whitespace-nowrap uppercase">CPF/CNPJ</button>
+      <button onclick="transferencia_pix_tipo(this,'Telefone','(11) 90000-0000')" class="pix-chip px-3 py-1.5 whitespace-nowrap uppercase">Telefone</button>
+      <button onclick="transferencia_pix_tipo(this,'E-mail','nome@email.com.br')" class="pix-chip px-3 py-1.5 whitespace-nowrap uppercase">E-mail</button>
+      <button onclick="transferencia_pix_tipo(this,'Chave aleatória','0000-0000-0000')" class="pix-chip px-3 py-1.5 whitespace-nowrap uppercase">Aleatória</button>
+    </div>
+
+    <div class="pix-key p-4 mb-3">
+      <label class="text-[10px] tracking-[.18em] text-[#7E7E7E] uppercase" id="pixLabelChave">Chave CPF / CNPJ do destinatário</label>
+      <input id="pixChave" oninput="transferencia_pix_valida()" placeholder="000.000.000-00"
+        class="w-full bg-transparent outline-none text-[16px] mt-2 placeholder:text-[#4A4A4A]" />
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#1E1E1E]">
+        <span id="pixStatusChave" class="text-[11px] text-[#7E7E7E]">Informe a chave ou use o QR Code</span>
+        <button onclick="transferencia_pix_qr()" class="text-[11px] text-[#D4AF37] tracking-wide">⬛ Ler QR Code</button>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <p class="text-[10px] tracking-[.18em] text-[#7E7E7E] uppercase mb-2">Contatos favoritos</p>
+      <div class="flex gap-3 overflow-x-auto pb-1">
+        <button onclick="transferencia_pix_fav(this,'Marina Albuquerque Reis','***.482.117-**','Banco Bradesco','MA')" class="flex flex-col items-center gap-1 w-[70px] shrink-0">
+          <span class="pix-av grid place-items-center">MA</span>
+          <span class="text-[10px] text-[#B9B9B9] leading-tight text-center">Marina A.</span>
+        </button>
+        <button onclick="transferencia_pix_fav(this,'Rogério Tavares Lima','(21) 98812-4470','Nubank','RT')" class="flex flex-col items-center gap-1 w-[70px] shrink-0">
+          <span class="pix-av grid place-items-center">RT</span>
+          <span class="text-[10px] text-[#B9B9B9] leading-tight text-center">Rogério T.</span>
+        </button>
+        <button onclick="transferencia_pix_fav(this,'Padaria Estrela do Norte Ltda','12.884.310/0001-45','Banco Itaú','PE')" class="flex flex-col items-center gap-1 w-[70px] shrink-0">
+          <span class="pix-av grid place-items-center">PE</span>
+          <span class="text-[10px] text-[#B9B9B9] leading-tight text-center">Padaria E.</span>
+        </button>
+        <button onclick="transferencia_pix_fav(this,'Cláudia Ferreira Nunes','claudia.nunes@gmail.com','Banco do Brasil','CF')" class="flex flex-col items-center gap-1 w-[70px] shrink-0">
+          <span class="pix-av grid place-items-center">CF</span>
+          <span class="text-[10px] text-[#B9B9B9] leading-tight text-center">Cláudia F.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="pix-card p-5 mb-4">
+      <p class="text-[10px] tracking-[.18em] text-[#7E7E7E] uppercase">Valor da transferência</p>
+      <div class="flex items-end gap-2 mt-2">
+        <span class="text-[#D4AF37] text-[15px] mb-1">R$</span>
+        <span id="pixValor" class="text-[34px] font-semibold tracking-tight leading-none">0,00</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mt-5">
+        <button onclick="transferencia_pix_tecla('1')" class="pix-tecla">1</button>
+        <button onclick="transferencia_pix_tecla('2')" class="pix-tecla">2</button>
+        <button onclick="transferencia_pix_tecla('3')" class="pix-tecla">3</button>
+        <button onclick="transferencia_pix_tecla('4')" class="pix-tecla">4</button>
+        <button onclick="transferencia_pix_tecla('5')" class="pix-tecla">5</button>
+        <button onclick="transferencia_pix_tecla('6')" class="pix-tecla">6</button>
+        <button onclick="transferencia_pix_tecla('7')" class="pix-tecla">7</button>
+        <button onclick="transferencia_pix_tecla('8')" class="pix-tecla">8</button>
+        <button onclick="transferencia_pix_tecla('9')" class="pix-tecla">9</button>
+        <button onclick="transferencia_pix_tecla('c')" class="pix-tecla text-[13px] text-[#7E7E7E]">LIMPAR</button>
+        <button onclick="transferencia_pix_tecla('0')" class="pix-tecla">0</button>
+        <button onclick="transferencia_pix_tecla('b')" class="pix-tecla text-[#D4AF37]">⌫</button>
+      </div>
+    </div>
+
+    <div class="pix-card p-4 mb-4">
+      <button onclick="transferencia_pix_toggleMsg()" class="w-full flex items-center justify-between">
+        <span class="text-[13px]">Adicionar mensagem</span>
+        <span id="pixSetaMsg" class="text-[#D4AF37] text-[13px]">+</span>
+      </button>
+      <div id="pixBoxMsg" class="hidden mt-3">
+        <input id="pixMsg" maxlength="60" oninput="transferencia_pix_msg()" placeholder="Ex.: Aluguel de outubro"
+          class="w-full pix-key px-3 py-2.5 text-[13px] outline-none placeholder:text-[#4A4A4A]" />
+        <p class="text-[10px] text-[#7E7E7E] mt-1"><span id="pixMsgCont">0</span>/60 caracteres</p>
+      </div>
+    </div>
+
+    <div class="pix-card p-4 mb-5">
+      <button onclick="transferencia_pix_toggleAgenda()" class="w-full flex items-center justify-between">
+        <div class="text-left">
+          <p class="text-[13px]">Agendar transferência</p>
+          <p id="pixAgendaResumo" class="text-[11px] text-[#7E7E7E] mt-0.5">Envio imediato · hoje, 18/06/2024</p>
+        </div>
+        <span id="pixSwitch" class="w-10 h-6 rounded-full bg-[#242424] border border-[#2E2E2E] relative">
+          <span id="pixSwitchBola" class="absolute top-[3px] left-[3px] w-4 h-4 rounded-full bg-[#7E7E7E] transition-all"></span>
+        </span>
+      </button>
+      <div id="pixBoxAgenda" class="hidden mt-3">
+        <input id="pixData" type="date" value="2024-06-25" onchange="transferencia_pix_agendaData()"
+          class="w-full pix-key px-3 py-2.5 text-[13px] outline-none text-[#FAFAFA]" />
+      </div>
+    </div>
+
+    <div id="pixResumo" class="hidden pix-card p-5 mb-5" style="border-color:rgba(212,175,55,.45)">
+      <p class="text-[10px] tracking-[.2em] text-[#D4AF37] uppercase mb-3">Resumo da transferência</p>
+      <div class="space-y-2 text-[13px]">
+        <div class="flex justify-between"><span class="text-[#7E7E7E]">Destinatário</span><span id="rsNome" class="text-right">—</span></div>
+        <div class="flex justify-between"><span class="text-[#7E7E7E]">Chave</span><span id="rsChave" class="text-right text-[12px]">—</span></div>
+        <div class="flex justify-between"><span class="text-[#7E7E7E]">Instituição</span><span id="rsBanco" class="text-right text-[12px]">—</span></div>
+        <div class="flex justify-between"><span class="text-[#7E7E7E]">Data</span><span id="rsData" class="text-right text-[12px]">18/06/2024</span></div>
+        <div id="rsLinhaMsg" class="hidden flex justify-between"><span class="text-[#7E7E7E]">Mensagem</span><span id="rsMsg" class="text-right text-[12px]">—</span></div>
+        <div class="flex justify-between pt-3 mt-2 border-t border-[#232323]">
+          <span class="text-[#7E7E7E]">Valor</span><span id="rsValor" class="text-[#D4AF37] font-semibold text-[16px]">R$ 0,00</span>
+        </div>
+      </div>
+      <p class="text-[10px] text-[#6B6B6B] mt-3">Transferência sem tarifa · Autenticação por biometria no próximo passo.</p>
+      <button onclick="mostrarTela('confirmacao-e-comprovante')" class="w-full mt-4 bg-[#D4AF37] text-[#0A0A0A] font-semibold text-[14px] py-3.5 rounded-xl tracking-wide">
+        Confirmar e enviar Pix
+      </button>
+    </div>
+
+    <button id="pixBtnContinuar" onclick="transferencia_pix_continuar()"
+      class="w-full bg-[#1C1C1C] text-[#6B6B6B] font-semibold text-[14px] py-3.5 rounded-xl tracking-wide">
+      Continuar
+    </button>
+    <p id="pixAviso" class="text-[11px] text-[#8A6F1F] mt-2 h-4"></p>
+
+    <div class="mt-6 flex gap-3">
+      <button onclick="mostrarTela('pagar-boleto')" class="flex-1 pix-card py-3 text-[12px] text-[#B9B9B9]">Pagar boleto</button>
+      <button onclick="mostrarTela('suporte-e-documentos')" class="flex-1 pix-card py-3 text-[12px] text-[#B9B9B9]">Falar com suporte</button>
+    </div>
+  </div>
+
+  <script>
+    var pixEstado = {centavos:0, nome:'', chave:'', banco:'', tipo:'CPF / CNPJ', agendado:false, data:'18/06/2024', msg:''};
+
+    function transferencia_pix_tipo(el, nome, ph){
+      document.querySelectorAll('#pixTipos button').forEach(function(b){b.classList.remove('ativo')});
+      el.classList.add('ativo');
+      pixEstado.tipo = nome;
+      document.getElementById('pixLabelChave').textContent = 'Chave ' + nome + ' do destinatário';
+      var i = document.getElementById('pixChave');
+      i.placeholder = ph; i.value = '';
+      transferencia_pix_valida();
+    }
+
+    function transferencia_pix_fav(el, nome, chave, banco, ini){
+      pixEstado.nome = nome; pixEstado.chave = chave; pixEstado.banco = banco;
+      document.getElementById('pixChave').value = chave;
+      document.getElementById('pixStatusChave').innerHTML = '<span class="text-[#D4AF37]">✓ ' + nome + ' · ' + banco + '</span>';
+      document.querySelectorAll('#pixTipos button').forEach(function(b){b.classList.remove('ativo')});
+      transferencia_pix_avaliarBotao();
+    }
+
+    function transferencia_pix_qr(){
+      pixEstado.nome = 'Restaurante Vila Serena ME';
+      pixEstado.chave = '28.741.905/0001-08';
+      pixEstado.banco = 'Banco Inter';
+      pixEstado.centavos = 8790;
+      document.getElementById('pixChave').value = pixEstado.chave;
+      document.getElementById('pixStatusChave').innerHTML = '<span class="text-[#D4AF37]">✓ QR lido · Restaurante Vila Serena ME</span>';
+      transferencia_pix_render();
+      transferencia_pix_avaliarBotao();
+    }
+
+    function transferencia_pix_valida(){
+      var v = document.getElementById('pixChave').value.trim();
+      var s = document.getElementById('pixStatusChave');
+      if(v.length === 0){
+        pixEstado.nome=''; s.textContent = 'Informe a chave ou use o QR Code';
+      } else if(v.length < 8){
+        pixEstado.nome=''; s.innerHTML = '<span class="text-[#8A6F1F]">Chave incompleta…</span>';
+      } else {
+        pixEstado.nome = 'Eduardo Prado Machado';
+        pixEstado.chave = v;
+        pixEstado.banco = 'Banco Santander';
+        s.innerHTML = '<span class="text-[#D4AF37]">✓ Eduardo Prado Machado · Banco Santander</span>';
+      }
+      transferencia_pix_avaliarBotao();
+    }
+
+    function transferencia_pix_tecla(t){
+      if(t === 'c'){ pixEstado.centavos = 0; }
+      else if(t === 'b'){ pixEstado.centavos = Math.floor(pixEstado.centavos / 10); }
+      else if(pixEstado.centavos < 99999999){ pixEstado.centavos = pixEstado.centavos * 10 + parseInt(t,10); }
+      transferencia_pix_render();
+      transferencia_pix_avaliarBotao();
+    }
+
+    function transferencia_pix_fmt(c){
+      return (c/100).toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+
+    function transferencia_pix_render(){
+      document.getElementById('pixValor').textContent = transferencia_pix_fmt(pixEstado.centavos);
+    }
+
+    function transferencia_pix_toggleMsg(){
+      var b = document.getElementById('pixBoxMsg');
+      b.classList.toggle('hidden');
+      document.getElementById('pixSetaMsg').textContent = b.classList.contains('hidden') ? '+' : '−';
+    }
+
+    function transferencia_pix_msg(){
+      pixEstado.msg = document.getElementById('pixMsg').value;
+      document.getElementById('pixMsgCont').textContent = pixEstado.msg.length;
+    }
+
+    function transferencia_pix_toggleAgenda(){
+      pixEstado.agendado = !pixEstado.agendado;
+      var box = document.getElementById('pixBoxAgenda');
+      var sw = document.getElementById('pixSwitch');
+      var bola = document.getElementById('pixSwitchBola');
+      if(pixEstado.agendado){
+        box.classList.remove('hidden');
+        sw.style.background = '#D4AF37'; sw.style.borderColor = '#D4AF37';
+        bola.style.background = '#0A0A0A'; bola.style.left = '19px';
+        transferencia_pix_agendaData();
+      } else {
+        box.classList.add('hidden');
+        sw.style.background = '#242424'; sw.style.borderColor = '#2E2E2E';
+        bola.style.background = '#7E7E7E'; bola.style.left = '3px';
+        pixEstado.data = '18/06/2024';
+        document.getElementById('pixAgendaResumo').textContent = 'Envio imediato · hoje, 18/06/2024';
+      }
+    }
+
+    function transferencia_pix_agendaData(){
+      var v = document.getElementById('pixData').value;
+      if(!v) return;
+      var p = v.split('-');
+      pixEstado.data = p[2] + '/' + p[1] + '/' + p[0];
+      document.getElementById('pixAgendaResumo').textContent = 'Agendado para ' + pixEstado.data;
+    }
+
+    function transferencia_pix_avaliarBotao(){
+      var ok = pixEstado.nome !== '' && pixEstado.centavos > 0;
+      var b = document.getElementById('pixBtnContinuar');
+      if(ok){
+        b.className = 'w-full bg-[#D4AF37] text-[#0A0A0A] font-semibold text-[14px] py-3.5 rounded-xl tracking-wide';
+      } else {
+        b.className = 'w-full bg-[#1C1C1C] text-[#6B6B6B] font-semibold text-[14px] py-3.5 rounded-xl tracking-wide';
+        document.getElementById('pixResumo').classList.add('hidden');
+      }
+      return ok;
+    }
+
+    function transferencia_pix_continuar(){
+      var aviso = document.getElementById('pixAviso');
+      if(pixEstado.nome === ''){ aviso.textContent = 'Informe uma chave válida para continuar.'; return; }
+      if(pixEstado.centavos === 0){ aviso.textContent = 'Digite o valor da transferência.'; return; }
+      aviso.textContent = '';
+      document.getElementById('rsNome').textContent = pixEstado.nome;
+      document.getElementById('rsChave').textContent = pixEstado.chave;
+      document.getElementById('rsBanco').textContent = pixEstado.banco;
+      document.getElementById('rsData').textContent = pixEstado.data + (pixEstado.agendado ? ' (agendado)' : '');
+      document.getElementById('rsValor').textContent = 'R$ ' + transferencia_pix_fmt(pixEstado.centavos);
+      var linha = document.getElementById('rsLinhaMsg');
+      if(pixEstado.msg.trim() !== ''){
+        linha.classList.remove('hidden'); linha.classList.add('flex');
+        document.getElementById('rsMsg').textContent = pixEstado.msg;
+      } else { linha.classList.add('hidden'); linha.classList.remove('flex'); }
+      var r = document.getElementById('pixResumo');
+      r.classList.remove('hidden');
+      r.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
