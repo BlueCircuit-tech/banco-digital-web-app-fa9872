@@ -518,6 +518,222 @@
   </script>
 </section>
 
+    <section data-tela="confirmacao-e-comprovante" class="hidden">
+  <style>
+    .cec-card{background:#FFFFFF;border:1px solid rgba(10,10,10,.08);border-radius:14px}
+    .cec-lbl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8A8A8A;font-weight:600}
+    .cec-val{font-size:14px;color:#0A0A0A;font-weight:600}
+    .cec-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px dashed rgba(10,10,10,.1)}
+    .cec-row:last-child{border-bottom:0}
+    .cec-key{width:38px;height:52px;border:1px solid rgba(10,10,10,.12);border-radius:10px;font-size:20px;font-weight:700;color:#0A0A0A;background:#FAFAFA}
+    .cec-key:active{background:#D4AF37;color:#0A0A0A}
+    .cec-btn-ouro{background:#D4AF37;color:#0A0A0A;font-weight:700;letter-spacing:.02em}
+    .cec-btn-dark{background:#0A0A0A;color:#FAFAFA;font-weight:600}
+    .cec-btn-out{border:1px solid rgba(10,10,10,.18);color:#0A0A0A;font-weight:600;background:#fff}
+  </style>
+
+  <div class="px-4 pt-4 pb-28 bg-[#FAFAFA] min-h-screen">
+
+    <div id="cecEtapaRevisao">
+      <p class="cec-lbl mb-1">Etapa 2 de 3</p>
+      <h2 class="text-[20px] font-semibold text-[#0A0A0A] leading-tight">Revise antes de enviar</h2>
+      <p class="text-[13px] text-[#6B6B6B] mt-1 mb-4">Confira os dados do destinatário. Transferências Pix são irreversíveis.</p>
+
+      <div class="cec-card p-4 mb-3">
+        <div class="flex items-center justify-between pb-3 mb-1 border-b border-[#0A0A0A]/10">
+          <div>
+            <p class="cec-lbl">Valor da transferência</p>
+            <p class="text-[26px] font-bold text-[#0A0A0A] tracking-tight">R$ 1.850,00</p>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-1 rounded bg-[#0A0A0A] text-[#D4AF37] tracking-widest">PIX</span>
+        </div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Para</span><span class="cec-val text-right">Mariana Coelho Prado</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">CPF</span><span class="cec-val text-right">•••.417.882-••</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Instituição</span><span class="cec-val text-right">Banco Bradesco S.A.</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Chave Pix</span><span class="cec-val text-right break-all">mariana.prado@gmail.com</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Debitado de</span><span class="cec-val text-right">Conta Corrente<br><span class="font-normal text-[#6B6B6B]">Ag. 0001 · C/C 47.902-3</span></span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Quando</span><span class="cec-val text-right">Hoje · 12/06/2024</span></div>
+      </div>
+
+      <div class="cec-card p-4 mb-3">
+        <label class="cec-lbl block mb-2">Descrição (opcional)</label>
+        <input id="cecDesc" type="text" maxlength="40" placeholder="Ex.: Aluguel de junho"
+               class="w-full text-[14px] text-[#0A0A0A] bg-[#FAFAFA] border border-[#0A0A0A]/12 rounded-lg px-3 py-2.5 outline-none focus:border-[#D4AF37]">
+        <p class="text-[11px] text-[#8A8A8A] mt-2">Aparece no extrato do destinatário.</p>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="mostrarTela('transferencia-pix')" class="cec-btn-out flex-1 py-3.5 rounded-xl text-[14px]">Corrigir</button>
+        <button onclick="confirmacao_e_comprovante_abrirAuth()" class="cec-btn-ouro flex-[1.4] py-3.5 rounded-xl text-[14px]">Confirmar envio</button>
+      </div>
+      <p class="text-[11px] text-center text-[#8A8A8A] mt-3">Limite Pix disponível hoje: R$ 8.150,00</p>
+    </div>
+
+    <div id="cecEtapaAuth" class="hidden">
+      <p class="cec-lbl mb-1">Etapa 3 de 3</p>
+      <h2 class="text-[20px] font-semibold text-[#0A0A0A] leading-tight">Autentique a operação</h2>
+      <p class="text-[13px] text-[#6B6B6B] mt-1 mb-5">Digite sua senha de 4 dígitos ou use a biometria do aparelho.</p>
+
+      <div class="cec-card p-5 mb-4">
+        <div class="flex justify-center gap-3 mb-1" id="cecDots"></div>
+        <p id="cecAuthMsg" class="text-center text-[12px] text-[#8A8A8A] mt-3 h-4">Senha eletrônica</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 max-w-[280px] mx-auto">
+        <button onclick="confirmacao_e_comprovante_digito('1')" class="cec-key">1</button>
+        <button onclick="confirmacao_e_comprovante_digito('2')" class="cec-key">2</button>
+        <button onclick="confirmacao_e_comprovante_digito('3')" class="cec-key">3</button>
+        <button onclick="confirmacao_e_comprovante_digito('4')" class="cec-key">4</button>
+        <button onclick="confirmacao_e_comprovante_digito('5')" class="cec-key">5</button>
+        <button onclick="confirmacao_e_comprovante_digito('6')" class="cec-key">6</button>
+        <button onclick="confirmacao_e_comprovante_digito('7')" class="cec-key">7</button>
+        <button onclick="confirmacao_e_comprovante_digito('8')" class="cec-key">8</button>
+        <button onclick="confirmacao_e_comprovante_digito('9')" class="cec-key">9</button>
+        <button onclick="confirmacao_e_comprovante_biometria()" class="cec-key flex items-center justify-center text-[16px]">☝︎</button>
+        <button onclick="confirmacao_e_comprovante_digito('0')" class="cec-key">0</button>
+        <button onclick="confirmacao_e_comprovante_apagar()" class="cec-key flex items-center justify-center text-[15px]">⌫</button>
+      </div>
+
+      <button onclick="confirmacao_e_comprovante_voltarRevisao()" class="w-full mt-5 py-3 text-[13px] text-[#6B6B6B] font-semibold">Voltar para a revisão</button>
+    </div>
+
+    <div id="cecEtapaProc" class="hidden pt-16 text-center">
+      <div class="w-16 h-16 mx-auto rounded-full border-[3px] border-[#0A0A0A]/10 border-t-[#D4AF37] animate-spin"></div>
+      <p class="mt-6 text-[15px] font-semibold text-[#0A0A0A]">Processando no SPI do Banco Central…</p>
+      <p class="text-[12px] text-[#8A8A8A] mt-1">Não feche o aplicativo.</p>
+    </div>
+
+    <div id="cecEtapaComprovante" class="hidden">
+      <div class="rounded-2xl bg-[#0A0A0A] p-5 text-center mb-3">
+        <div class="w-14 h-14 mx-auto rounded-full bg-[#D4AF37] flex items-center justify-center">
+          <svg viewBox="0 0 24 24" class="w-7 h-7" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        </div>
+        <p class="text-[#D4AF37] text-[11px] tracking-[.18em] font-bold mt-4">PIX ENVIADO</p>
+        <p class="text-[#FAFAFA] text-[28px] font-bold tracking-tight mt-1">R$ 1.850,00</p>
+        <p class="text-[#FAFAFA]/60 text-[12px] mt-1" id="cecDataHora">12/06/2024 às 14:38:52</p>
+      </div>
+
+      <div id="cecPush" class="cec-card p-3 mb-3 flex gap-3 items-start">
+        <span class="text-[16px] leading-none mt-[2px]">🔔</span>
+        <div class="flex-1">
+          <p class="text-[12px] font-bold text-[#0A0A0A]">Notificação enviada</p>
+          <p class="text-[11px] text-[#6B6B6B] leading-snug mt-[2px]">Push + WhatsApp para <b>(11) 98842-3170</b>: “Pix de R$ 1.850,00 enviado para Mariana C. Prado.”</p>
+        </div>
+        <span class="text-[10px] font-bold text-[#D4AF37] mt-[2px]">agora</span>
+      </div>
+
+      <div class="cec-card p-4 mb-3">
+        <p class="cec-lbl mb-3">Comprovante</p>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Destinatário</span><span class="cec-val text-right">Mariana Coelho Prado<br><span class="font-normal text-[#6B6B6B]">CPF •••.417.882-••</span></span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Instituição</span><span class="cec-val text-right">Banco Bradesco S.A.</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Pagador</span><span class="cec-val text-right">Rafael Amorim Bastos<br><span class="font-normal text-[#6B6B6B]">Ag. 0001 · C/C 47.902-3</span></span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Descrição</span><span class="cec-val text-right" id="cecDescOut">—</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">ID da transação</span><span class="cec-val text-right break-all" id="cecId">E60746948202406121438s4b91fd2c7</span></div>
+        <div class="cec-row"><span class="cec-lbl pt-[2px]">Autenticação</span><span class="cec-val text-right" id="cecAuthTipo">Senha eletrônica</span></div>
+      </div>
+
+      <div class="cec-card p-3 mb-3 flex items-center justify-between">
+        <div>
+          <p class="text-[12px] font-bold text-[#0A0A0A]">Saldo atualizado</p>
+          <p class="text-[11px] text-[#6B6B6B]">Conta Corrente</p>
+        </div>
+        <p class="text-[16px] font-bold text-[#0A0A0A]">R$ 12.406,18</p>
+      </div>
+
+      <div class="space-y-2">
+        <button onclick="confirmacao_e_comprovante_acao('whats')" class="cec-btn-dark w-full py-3.5 rounded-xl text-[14px] flex items-center justify-center gap-2">
+          <span>💬</span> Compartilhar no WhatsApp
+        </button>
+        <div class="flex gap-2">
+          <button onclick="confirmacao_e_comprovante_acao('pdf')" class="cec-btn-out flex-1 py-3.5 rounded-xl text-[13px]">Salvar PDF</button>
+          <button onclick="confirmacao_e_comprovante_acao('copiar')" class="cec-btn-out flex-1 py-3.5 rounded-xl text-[13px]">Copiar ID</button>
+        </div>
+        <p id="cecFeedback" class="text-[12px] text-center font-semibold text-[#0A0A0A] h-4"></p>
+        <button onclick="mostrarTela('minha-conta')" class="cec-btn-ouro w-full py-3.5 rounded-xl text-[14px]">Voltar para a conta</button>
+        <div class="flex gap-2 pt-1">
+          <button onclick="mostrarTela('transferencia-pix')" class="flex-1 py-3 text-[13px] font-semibold text-[#6B6B6B]">Novo Pix</button>
+          <button onclick="mostrarTela('suporte-e-documentos')" class="flex-1 py-3 text-[13px] font-semibold text-[#6B6B6B]">Falar com suporte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cecSenha = '';
+    let cecAuth = 'Senha eletrônica';
+
+    function confirmacao_e_comprovante_etapa(id){
+      ['cecEtapaRevisao','cecEtapaAuth','cecEtapaProc','cecEtapaComprovante'].forEach(function(e){
+        document.getElementById(e).classList.add('hidden');
+      });
+      document.getElementById(id).classList.remove('hidden');
+      window.scrollTo(0,0);
+    }
+    function confirmacao_e_comprovante_dots(){
+      var h='';
+      for(var i=0;i<4;i++){
+        h += '<span class="w-3.5 h-3.5 rounded-full '+(i<cecSenha.length?'bg-[#D4AF37]':'bg-[#0A0A0A]/12')+'"></span>';
+      }
+      document.getElementById('cecDots').innerHTML=h;
+    }
+    function confirmacao_e_comprovante_abrirAuth(){
+      cecSenha=''; cecAuth='Senha eletrônica';
+      document.getElementById('cecAuthMsg').textContent='Senha eletrônica';
+      confirmacao_e_comprovante_dots();
+      confirmacao_e_comprovante_etapa('cecEtapaAuth');
+    }
+    function confirmacao_e_comprovante_voltarRevisao(){
+      confirmacao_e_comprovante_etapa('cecEtapaRevisao');
+    }
+    function confirmacao_e_comprovante_digito(d){
+      if(cecSenha.length>=4) return;
+      cecSenha+=d;
+      confirmacao_e_comprovante_dots();
+      if(cecSenha.length===4){
+        document.getElementById('cecAuthMsg').textContent='Validando senha…';
+        setTimeout(confirmacao_e_comprovante_processar,500);
+      }
+    }
+    function confirmacao_e_comprovante_apagar(){
+      cecSenha=cecSenha.slice(0,-1);
+      document.getElementById('cecAuthMsg').textContent='Senha eletrônica';
+      confirmacao_e_comprovante_dots();
+    }
+    function confirmacao_e_comprovante_biometria(){
+      cecAuth='Biometria (Face ID)';
+      cecSenha='0000';
+      confirmacao_e_comprovante_dots();
+      document.getElementById('cecAuthMsg').textContent='Biometria reconhecida ✓';
+      setTimeout(confirmacao_e_comprovante_processar,600);
+    }
+    function confirmacao_e_comprovante_processar(){
+      confirmacao_e_comprovante_etapa('cecEtapaProc');
+      setTimeout(function(){
+        var d=new Date();
+        var p=function(n){return (n<10?'0':'')+n;};
+        document.getElementById('cecDataHora').textContent=
+          p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' às '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+        document.getElementById('cecId').textContent=
+          'E607469482'+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+p(d.getHours())+p(d.getMinutes())+'s4b91fd2c7';
+        document.getElementById('cecAuthTipo').textContent=cecAuth;
+        var t=document.getElementById('cecDesc').value.trim();
+        document.getElementById('cecDescOut').textContent = t ? t : 'Sem descrição';
+        document.getElementById('cecFeedback').textContent='';
+        confirmacao_e_comprovante_etapa('cecEtapaComprovante');
+      },1500);
+    }
+    function confirmacao_e_comprovante_acao(tipo){
+      var f=document.getElementById('cecFeedback');
+      if(tipo==='whats'){ f.textContent='Comprovante preparado para envio no WhatsApp ✓'; }
+      if(tipo==='pdf'){ f.textContent='comprovante-pix-1850.pdf salvo em Documentos ✓'; }
+      if(tipo==='copiar'){ f.textContent='ID da transação copiado ✓'; }
+      f.classList.remove('text-[#0A0A0A]');
+      f.classList.add('text-[#8a6f1c]');
+    }
+    confirmacao_e_comprovante_dots();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
